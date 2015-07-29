@@ -4,6 +4,8 @@ Provide template tags to help with Javascript/Django integration.
 '''
 from __future__ import unicode_literals
 
+import random
+
 from django import template
 from django.contrib.staticfiles.storage import staticfiles_storage
 from django.utils import six
@@ -166,6 +168,7 @@ def jquery_js(version=None, migrate=False):
 @register.inclusion_tag('djangojs/django_js_tag.html', takes_context=True)
 def django_js(context, jquery=True, i18n=True, csrf=True, init=True):
     '''Include Django.js javascript library in the page'''
+    randint = random.randint(1, 1000000)
     return {
         'js': {
             'minified': not settings.DEBUG,
@@ -173,18 +176,21 @@ def django_js(context, jquery=True, i18n=True, csrf=True, init=True):
             'i18n': _boolean(i18n),
             'csrf': _boolean(csrf),
             'init': _boolean(init),
-        }
+        },
+        'randint': randint,
     }
 
 
 @register.inclusion_tag('djangojs/django_js_init.html', takes_context=True)
 def django_js_init(context, jquery=False, i18n=True, csrf=True, init=True):
     '''Include Django.js javascript library initialization in the page'''
+    randint = random.randint(1, 1000000)
     return {
         'js': {
             'jquery': _boolean(jquery),
             'i18n': _boolean(i18n),
             'csrf': _boolean(csrf),
             'init': _boolean(init),
-        }
+        },
+        'randint': randint,
     }
